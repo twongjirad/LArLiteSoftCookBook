@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+
+<!-- Production Project -->
+
+<!DOCTYPE project [
+<!ENTITY release "v04_26_02">
+<!ENTITY tag     "paddle_v1">
+<!ENTITY name    "paddle_v1">
+<!ENTITY user "tmw">
+
+<!-- RYAN SPECIFIC THINGS --><!--
+  Two directory concepts:
+    0) Software directory
+    1) Job output directory
+    2) 
+-->
+<!ENTITY data_dir     "/pnfs/uboone/persistent/users/tmw/data_paddle">
+<!ENTITY local_dir    "/uboone/data/users/tmw/workdir_paddle2">
+<!ENTITY software_dir "/uboone/app/users/tmw/uboonecode/paddle" >
+<!ENTITY runnum "3336">
+
+]>
+
+<job>
+<project name="&name;">
+
+  <!-- Group -->
+  <group>uboone</group>
+
+  <os>SL6</os>
+
+  <resource>DEDICATED,OPPORTUNISTIC</resource>
+
+  <!-- Larsoft information -->
+  <larsoft>
+    <tag>&release;</tag>
+    <qual>e7:prof</qual>
+    <local>&software_dir;/larsoft/local.tar</local>
+  </larsoft>
+
+  <!-- Project size -->
+  <numevents>10000</numevents>
+
+  <!-- Project stages -->
+  <stage name="paddle_swizzle">
+    <initsource>&software_dir;/setup_larlite.sh</initsource>
+    <inputlist>&software_dir;/file_list/files_run&runnum;.txt</inputlist>
+    <fcldir>&software_dir;/fcls</fcldir>
+    <fcl>paddle_swizzle_v1.fcl</fcl>
+    <numjobs>100</numjobs>
+    <outdir>&data_dir;/&release;/&name;_&runnum;</outdir>
+    <logdir>&local_dir;/prod_log/&release;/&name;/run&runnum;</logdir>
+    <workdir>&local_dir;/prod_work/&name;/run&runnum;</workdir>
+  </stage>
+
+  <!-- Project stages -->
+  <stage name="paddle_reco1">
+    <initsource>&software_dir;/setup_larlite.sh</initsource>
+    <fcldir>&software_dir;/fcls</fcldir>
+    <fcl>paddle_reco1.fcl</fcl>
+    <numjobs>100</numjobs>
+    <outdir>&data_dir;/&release;/&name;_reco1_&runnum;</outdir>
+    <logdir>&local_dir;/prod_log/&release;/&name;_reco1/run&runnum;</logdir>
+    <workdir>&local_dir;/prod_work/&name;_reco1/run&runnum;</workdir>
+  </stage>
+
+  <!-- file type -->
+  <filetype>mc</filetype>
+
+  <!-- run type -->
+  <runtype>physics</runtype>
+
+
+</project>
+</job>
