@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+
+<!-- Production Project -->
+
+<!DOCTYPE project [
+<!ENTITY release "v04_26_02">
+<!ENTITY tag     "chargedpimc_v1">
+<!ENTITY name    "chargedpimc_v1">
+<!ENTITY user "tmw">
+<!ENTITY runnum "001">
+
+<!-- RYAN SPECIFIC THINGS --><!--
+  Two directory concepts:
+    0) Software directory
+    1) Job output directory
+    2) 
+-->
+<!ENTITY data_dir     "/pnfs/uboone/scratch/users/tmw/mc_chargedpi">
+<!ENTITY local_dir    "/uboone/data/users/tmw/workdir_chargedpimc">
+<!ENTITY software_dir "/uboone/app/users/tmw/uboonecode/chargedpisim" >
+]>
+
+<job>
+<project name="&name;">
+
+  <!-- Group -->
+  <group>uboone</group>
+
+  <os>SL6</os>
+
+  <resource>DEDICATED,OPPORTUNISTIC</resource>
+
+  <!-- Larsoft information -->
+  <larsoft>
+    <tag>&release;</tag>
+    <qual>e7:prof</qual>
+    <local>&software_dir;/larsoft/local.tar</local>
+  </larsoft>
+
+  <!-- Project size -->
+  <numevents>100000</numevents>
+
+  <!-- Generator -->
+  <stage name="gen">
+    <fcldir>&software_dir;/fcls</fcldir>
+    <fcl>prod_piplus_0.1-2.0GeV_isotropic_uboone.fcl</fcl>
+    <numjobs>100</numjobs>
+    <outdir>&data_dir;/&release;/&name;</outdir>
+    <logdir>&local_dir;/prod_log/&release;/&name;/run&runnum;</logdir>
+    <workdir>&local_dir;/prod_work/&name;/run&runnum;</workdir>
+  </stage>
+
+  <!-- Geant4 -->
+  <stage name="g4">
+    <fcldir>&software_dir;/fcls</fcldir>
+    <fcl>standard_g4_uboone.fcl</fcl>
+    <numjobs>100</numjobs>
+    <outdir>&data_dir;/&release;/&name;</outdir>
+    <logdir>&local_dir;/prod_log/&release;/&name;/run&runnum;</logdir>
+    <workdir>&local_dir;/prod_work/&name;_reco1/run&runnum;</workdir>
+  </stage>
+
+  <!-- DetSim -->
+  <stage name="detsim">
+    <fcldir>&software_dir;/fcls</fcldir>
+    <fcl>standard_detsim_uboone.fcl</fcl>
+    <numjobs>100</numjobs>
+    <outdir>&data_dir;/&release;/&name;_reco1_&runnum;</outdir>
+    <logdir>&local_dir;/prod_log/&release;/&name;/run&runnum;</logdir>
+    <workdir>&local_dir;/prod_work/&name;_reco1/run&runnum;</workdir>
+  </stage>
+
+  <!-- file type -->
+  <filetype>mc</filetype>
+
+  <!-- run type -->
+  <runtype>physics</runtype>
+
+
+</project>
+</job>
