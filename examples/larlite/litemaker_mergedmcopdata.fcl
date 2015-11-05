@@ -1,0 +1,27 @@
+#include "litemaker_base.fcl"
+
+BEGIN_PROLOG
+
+litemaker_mergedmcopdata: @local::litemaker_base
+
+litemaker_mergedmcopdata.out_filename: "larlite_mergedmcopdata.root"
+
+litemaker_mergedmcopdata.pot_labels: ["generator"]
+
+litemaker_mergedmcopdata.DataLookUpMap:
+{
+  potsummary: ["generator"]
+  gtruth:     ["generator"]
+  mcflux:     ["generator"]
+  mctruth:    ["generator"]
+  mctrack:    ["mcreco"]
+  mcshower:   ["mcreco"]
+  opdigit:    ["pmtreadout"]
+  trigger:    ["daq"]
+}
+
+litemaker_mergedmcopdata.AssociationLookUpMap: {
+  mctruth: ["generator"]
+}
+
+END_PROLOG
