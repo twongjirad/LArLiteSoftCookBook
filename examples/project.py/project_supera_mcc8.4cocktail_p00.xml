@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<!-- files in def 1240 -->
+<!-- Production Project -->
+
+<!DOCTYPE project [
+<!ENTITY release      "v06_26_01_09" >
+<!ENTITY file_type    "mc"        >
+<!ENTITY run_type     "physics"   >
+<!ENTITY name         "mcc8.4_cocktail_presample">
+<!ENTITY dl_part      "p00"       >
+<!ENTITY username     "tmw"       >
+<!ENTITY projectout   "/pnfs/uboone/persistent/users/tmw/mcc8.4_cocktail_presample/p00">
+<!ENTITY test         "test" >
+]>
+
+<job>
+
+<project name="&name;">
+
+  <!-- Project size -->
+  <numevents>1000000</numevents>
+
+  <!-- Operating System -->
+  <os>SL6</os>
+
+  <!-- Larsoft information -->
+  <!-- Remember to make/update your larsoft tarball and point to it here -->
+  <larsoft>
+    <tag>&release;</tag>
+    <qual>e10:prof</qual>
+    <local>/uboone/app/users/tmw/dev/dlprod_test/larsoft.tar</local>
+  </larsoft>
+
+
+  <!-- Local FCL directory -->
+  <fcldir>/uboone/app/users/tmw/projects/dlprod_test/prod/mcc8.4cocktail</fcldir>
+
+  <!-- Project stages -->
+  <stage name="supera">
+    <fcl>standard_supera_mc_wpmtprecuts.fcl</fcl>
+    <inputdef>tmw_20171209_prodgenie_bnb_nu_cosmic_uboone_mcc8.4_reco2_p00</inputdef>
+    <outdir>&projectout;/&name;_&dl_part;/out/&release;</outdir>
+    <logdir>&projectout;/&name;_&dl_part;/log/&release;</logdir>
+    <workdir>&projectout;/&name;_&dl_part;/work/&release;</workdir>
+    <numjobs>96</numjobs>
+    <maxfilesperjob>1</maxfilesperjob>
+    <datatier>larlite</datatier>
+    <memory>4000</memory>
+    <disk>100GB</disk>
+    <resource>DEDICATED,OPPORTUNISTIC</resource>
+    <jobsub>--expected-lifetime=medium</jobsub>
+  </stage>
+
+  <!-- file type -->
+  <filetype>&file_type;</filetype>
+
+  <!-- run type -->
+  <runtype>&run_type;</runtype>
+
+</project>
+
+</job>
